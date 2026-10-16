@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Background Glow -->
+    <radialGradient id="tabGlow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#ff75a0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ff1464" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Petal Gradients -->
+    <linearGradient id="stemG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#55a630"/>
+      <stop offset="50%" stop-color="#2b8a3e"/>
+      <stop offset="100%" stop-color="#14522d"/>
+    </linearGradient>
+    <linearGradient id="leafG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#70e000"/>
+      <stop offset="100%" stop-color="#246a36"/>
+    </linearGradient>
+    <linearGradient id="pLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb8d2"/>
+      <stop offset="35%" stop-color="#ff3377"/>
+      <stop offset="85%" stop-color="#c9004f"/>
+      <stop offset="100%" stop-color="#7a0028"/>
+    </linearGradient>
+    <linearGradient id="pRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffccd9"/>
+      <stop offset="35%" stop-color="#ff4385"/>
+      <stop offset="85%" stop-color="#d60a59"/>
+      <stop offset="100%" stop-color="#8a0030"/>
+    </linearGradient>
+    <linearGradient id="pCenter" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#fff0f5"/>
+      <stop offset="25%" stop-color="#ff80ab"/>
+      <stop offset="70%" stop-color="#f50057"/>
+      <stop offset="100%" stop-color="#990033"/>
+    </linearGradient>
+    <linearGradient id="rimG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="32" cy="30" r="28" fill="url(#tabGlow)"/>
+
+  <!-- Stem -->
+  <path d="M32 38 Q31 49 32 60" stroke="url(#stemG)" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+
+  <!-- Left Leaf -->
+  <path d="M31 51 C20 48 10 39 12 30 C18 42 24 49 31 51 Z" fill="url(#leafG)"/>
+
+  <!-- Right Leaf -->
+  <path d="M33 53 C44 50 54 41 52 32 C46 44 40 51 33 53 Z" fill="url(#leafG)"/>
+
+  <!-- Tulip Flower Base Shadow -->
+  <path d="M21 34 C16 22 22 13 32 9 C42 13 48 22 43 34 C39 42 25 42 21 34 Z" fill="#660022"/>
+
+  <!-- Left Outer Petal -->
+  <path d="M32 40 C19 40 12 28 15 15 C17 10 22 10 26 17 C29 23 31 32 32 40 Z" fill="url(#pLeft)"/>
+  <path d="M16 16 C19 23 25 31 30 36" stroke="url(#rimG)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+  <!-- Right Outer Petal -->
+  <path d="M32 40 C45 40 52 28 49 15 C47 10 42 10 38 17 C35 23 33 32 32 40 Z" fill="url(#pRight)"/>
+  <path d="M48 16 C45 23 39 31 34 36" stroke="url(#rimG)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+  <!-- Center Blooming Petal -->
+  <path d="M24 39 C22 25 24 13 32 10 C40 13 42 25 40 39 C36 43 28 43 24 39 Z" fill="url(#pCenter)"/>
+
+  <!-- Upper Petal Cup Highlight -->
+  <path d="M26 21 C29 18 35 18 38 21" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.85"/>
+
+  <!-- Golden Dew Sparkle -->
+  <circle cx="32" cy="18" r="2.2" fill="#ffffff"/>
+  <path d="M32 13 L32 23 M27 18 L37 18" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="32" cy="18" r="1.1" fill="#ffe57f"/>
+</svg>
