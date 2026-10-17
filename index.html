@@ -339,6 +339,23 @@
       color: #881337 !important;
       box-shadow: 0 0 18px rgba(244, 63, 94, 0.55), inset 0 1px 0 #ffffff !important;
     }
+    .teacher-tag {
+      font-size: 17.5px;
+      font-weight: 700;
+      color: #7c2d12;
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1.5px solid #f97316;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25), inset 0 1px 0 #ffffff;
+      padding: 5px 20px 5px;
+      display: inline-block;
+    }
+    .teacher-tag:hover, .teacher-tag.active {
+      transform: translateY(-3px) scale(1.1) !important;
+      background: linear-gradient(135deg, #ffedd5, #fed7aa) !important;
+      border-color: #ea580c !important;
+      color: #9a3412 !important;
+      box-shadow: 0 5px 20px rgba(234, 88, 12, 0.45), inset 0 1px 0 #ffffff !important;
+    }
     @keyframes nameReveal {
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
@@ -504,7 +521,7 @@
 
     <div class="border-b border-dashed border-[#d4b288] pb-1.5 mb-1.5 pointer-events-none">
       <h3 class="font-cursive text-2xl sm:text-[28px] font-bold text-[#4d321e] leading-tight">
-        Gửi các bạn nữ <span class="text-rose-500">9/12</span>
+        Gửi Cô Diệu Hương & các bạn <span class="text-rose-500">9/12</span>
       </h3>
     </div>
 
@@ -536,17 +553,20 @@
 
         <!-- Greeting Header -->
         <h2 id="letterHeading" class="font-cursive text-2xl sm:text-[28px] font-bold text-center text-[#4a301d] mb-3 leading-snug">
-          Gửi các bạn nữ <span class="text-rose-500">9/12</span> xinh đẹp!
+          Gửi Cô <span class="text-rose-500">Diệu Hương</span> & các bạn nữ <span class="text-rose-500">9/12</span>!
         </h2>
 
         <!-- Typewriter Body Paragraphs -->
         <div id="letterBody" class="font-cursive text-[18px] sm:text-[21px] leading-[1.6] text-[#4a311f] space-y-2.5 min-h-[185px]">
         </div>
 
-        <!-- Names of the Girls Section -->
+        <!-- Names Section -->
         <div id="namesSection" style="display: none;">
           <div class="names-divider">
-            <span class="font-cursive text-sm text-[#9a7150] font-semibold">🌸 Gửi đến 17 đóa hoa 9/12 🌸</span>
+            <span class="font-cursive text-sm text-[#9a7150] font-semibold">🌸 Kính gửi Cô Diệu Hương & 17 đóa hoa 9/12 🌸</span>
+          </div>
+          <div class="text-center mb-2.5">
+            <span id="teacherTag" class="name-tag teacher-tag">✨ Cô Diệu Hương ✨</span>
           </div>
           <div class="names-grid" id="namesGrid"></div>
         </div>
@@ -578,11 +598,11 @@
     /*************************************************************************
      * 1. 20/10 LETTER CONTENT FOR CLASS 9/12
      *************************************************************************/
-    const letterTitleHTML = 'Gửi các bạn nữ <span class="text-rose-500">9/12</span> xinh đẹp!';
+    const letterTitleHTML = 'Gửi Cô <span class="text-rose-500">Diệu Hương</span> & các bạn nữ <span class="text-rose-500">9/12</span>!';
     const letterParagraphs = [
-      "Nhân ngày Phụ nữ Việt Nam 20/10, chúc một nửa thế giới của tập thể 9/12 luôn rạng rỡ như những đóa hoa Tulip dưới bầu trời đêm đầy sao.",
-      "Cảm ơn các bạn vì đã luôn mang đến tiếng cười, sự dịu dàng và nguồn năng lượng tích cực, làm cho mỗi ngày đến lớp đều trở nên thật ý nghĩa.",
-      "Chúc các bạn nữ 9/12 luôn tự tin với nét riêng của mình, được yêu thương và trân trọng, can đảm theo đuổi những điều mình mơ ước. Mỗi bạn là một đóa hoa riêng, làm nên những kỷ niệm thật đẹp của 9/12!"
+      "Nhân ngày Phụ nữ Việt Nam 20/10, tập thể 9/12 xin gửi lời tri ân sâu sắc và những lời chúc tốt đẹp nhất đến cô Diệu Hương – người đã luôn tận tâm dạy dỗ, quan tâm và đồng hành cùng chúng em.",
+      "Tụi em chúc cô luôn dồi dào sức khỏe, ngập tràn niềm vui, luôn tươi trẻ và hạnh phúc trong cuộc sống cũng như sự nghiệp trồng người.",
+      "Chúc một nửa thế giới xinh đẹp của 9/12 – cô Diệu Hương cùng 17 đóa hoa nữ – luôn tự tin, rạng rỡ và luôn nở nụ cười thật tươi trên môi mỗi ngày đến lớp!"
     ];
 
     const classGirlNames = [
@@ -2915,11 +2935,26 @@
 
       function revealNames() {
         namesSection.style.display = 'block';
+
+        const teacherTag = document.getElementById('teacherTag');
+        if (teacherTag) {
+          teacherTag.style.animationDelay = '50ms';
+          teacherTag.title = 'Chạm vào để gửi lời tri ân đến Cô!';
+          teacherTag.onclick = (e) => {
+            e.stopPropagation();
+            teacherTag.classList.add('active');
+            setTimeout(() => teacherTag.classList.remove('active'), 500);
+            playSparkleChime();
+            const rect = teacherTag.getBoundingClientRect();
+            spawnSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 35);
+          };
+        }
+
         classGirlNames.forEach((name, i) => {
           const tag = document.createElement('span');
           tag.className = 'name-tag';
           tag.textContent = name;
-          tag.style.animationDelay = (i * 70) + 'ms';
+          tag.style.animationDelay = ((i + 1) * 70) + 'ms';
           tag.title = 'Chạm vào để gửi lời chúc!';
           tag.addEventListener('click', (e) => {
             e.stopPropagation();
