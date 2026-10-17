@@ -294,6 +294,55 @@
       50% { filter: drop-shadow(0 14px 28px rgba(255,182,193,0.45)); }
     }
 
+    /* Names section styling */
+    .names-divider {
+      display: flex; align-items: center; gap: 8px;
+      margin: 16px 0 12px;
+    }
+    .names-divider::before, .names-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, #c9956a 40%, #c9956a 60%, transparent);
+    }
+    .names-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 9px;
+      padding: 4px 0 6px;
+    }
+    .name-tag {
+      font-family: 'Dancing Script', cursive;
+      font-size: 16px; font-weight: 700;
+      color: #5a2d1a;
+      background: linear-gradient(135deg, #fffbf7, #fdece2);
+      border: 1px solid #dfc2a6;
+      border-radius: 9999px;
+      padding: 4px 14px 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      opacity: 0;
+      transform: translateY(10px) scale(0.9);
+      animation: nameReveal 0.5s ease-out forwards;
+      box-shadow: 0 1.5px 5px rgba(180, 120, 70, 0.18), inset 0 1px 0 rgba(255,255,255,0.85);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s, background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .name-tag:hover {
+      transform: translateY(-3px) scale(1.08);
+      background: linear-gradient(135deg, #fff0f5, #fedfe8);
+      border-color: #f7a2ba;
+      color: #9f1239;
+      box-shadow: 0 5px 16px rgba(244, 114, 182, 0.42), inset 0 1px 0 #ffffff;
+    }
+    .name-tag.active {
+      transform: scale(1.15) !important;
+      background: linear-gradient(135deg, #ffe4ec, #ffd1df) !important;
+      border-color: #f43f5e !important;
+      color: #881337 !important;
+      box-shadow: 0 0 18px rgba(244, 63, 94, 0.55), inset 0 1px 0 #ffffff !important;
+    }
+    @keyframes nameReveal {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     /* Vintage Wavy/Scalloped-Edge Letter Sheet */
     .vintage-letter-modal {
       filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.72)) drop-shadow(0 0 24px rgba(255, 220, 185, 0.35));
@@ -494,6 +543,14 @@
         <div id="letterBody" class="font-cursive text-[18px] sm:text-[21px] leading-[1.6] text-[#4a311f] space-y-2.5 min-h-[185px]">
         </div>
 
+        <!-- Names of the Girls Section -->
+        <div id="namesSection" style="display: none;">
+          <div class="names-divider">
+            <span class="font-cursive text-sm text-[#9a7150] font-semibold">🌸 Gửi đến 17 đóa hoa 9/12 🌸</span>
+          </div>
+          <div class="names-grid" id="namesGrid"></div>
+        </div>
+
         <!-- Close Button -->
         <div class="mt-5 text-center">
           <button id="btnCloseLetter"
@@ -526,6 +583,14 @@
       "Nhân ngày Phụ nữ Việt Nam 20/10, chúc một nửa thế giới của tập thể 9/12 luôn rạng rỡ như những đóa hoa Tulip dưới bầu trời đêm đầy sao.",
       "Cảm ơn các bạn vì đã luôn mang đến tiếng cười, sự dịu dàng và nguồn năng lượng tích cực, làm cho mỗi ngày đến lớp đều trở nên thật ý nghĩa.",
       "Chúc các bạn nữ 9/12 luôn tự tin với nét riêng của mình, được yêu thương và trân trọng, can đảm theo đuổi những điều mình mơ ước. Mỗi bạn là một đóa hoa riêng, làm nên những kỷ niệm thật đẹp của 9/12!"
+    ];
+
+    const classGirlNames = [
+      'Bảo Ngân', 'Nhã Lam', 'Anh Thư', 'Bảo Khánh',
+      'Diệp Anh', 'Ngọc Giàu', 'Bảo Ngọc', 'Khánh Tường',
+      'Kim Hân', 'Kiều Oanh', 'Nhật An', 'Khánh An',
+      'Ngọc Linh', 'Uyên Nhi', 'Phương Trinh', 'Mai Nhi',
+      'Vân Anh'
     ];
 
     /*************************************************************************
@@ -2815,12 +2880,20 @@
       letterHeading.innerHTML = letterTitleHTML;
       letterBody.innerHTML = '';
 
+      // Reset names section
+      const namesSection = document.getElementById('namesSection');
+      const namesGrid = document.getElementById('namesGrid');
+      namesSection.style.display = 'none';
+      namesGrid.innerHTML = '';
+
       let pIdx = 0;
       let cIdx = 0;
       let pElem = null;
 
       function typeStep() {
         if (pIdx >= letterParagraphs.length) {
+          // All paragraphs typed — reveal names with staggered animation
+          revealNames();
           return;
         }
         if (cIdx === 0) {
@@ -2839,6 +2912,36 @@
           typewriterTimer = setTimeout(typeStep, 20);
         }
       }
+
+      function revealNames() {
+        namesSection.style.display = 'block';
+        classGirlNames.forEach((name, i) => {
+          const tag = document.createElement('span');
+          tag.className = 'name-tag';
+          tag.textContent = name;
+          tag.style.animationDelay = (i * 70) + 'ms';
+          tag.title = 'Chạm vào để gửi lời chúc!';
+          tag.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tag.classList.add('active');
+            setTimeout(() => tag.classList.remove('active'), 450);
+            playSparkleChime();
+            const rect = tag.getBoundingClientRect();
+            spawnSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
+          });
+          namesGrid.appendChild(tag);
+        });
+
+        // Play a soft chime and gently scroll down so names are visible
+        setTimeout(() => {
+          playSparkleChime();
+          const paper = document.querySelector('.vintage-letter-paper');
+          if (paper) {
+            paper.scrollTo({ top: paper.scrollHeight, behavior: 'smooth' });
+          }
+        }, 220);
+      }
+
       typeStep();
     }
 
