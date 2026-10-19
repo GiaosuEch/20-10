@@ -400,6 +400,457 @@
     .vintage-letter-paper {
       background: repeating-linear-gradient(12deg,transparent 0 3px,rgba(136,92,47,.025) 3px 4px),radial-gradient(ellipse at 12% 0,#fffef9,transparent 70%),linear-gradient(135deg,#fff6e5,#f0ddbf);
     }
+  
+    /* =========================================================================
+     * 7. FLOATING AUDIO DOCK (Rex Orange County - It's Not The Same Anymore Violin Outro)
+     * Inspired by D:\Nguyen\2010 cô Tâm\showcase AudioDock
+     * ========================================================================= */
+    .audio-dock {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px 6px 8px;
+      background: rgba(13, 20, 38, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 182, 218, 0.28);
+      border-radius: 9999px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 18px rgba(255, 130, 185, 0.2);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+      will-change: transform;
+    }
+    .audio-dock:hover {
+      background: rgba(18, 28, 52, 0.88);
+      border-color: rgba(255, 182, 218, 0.55);
+      box-shadow: 0 10px 38px rgba(0, 0, 0, 0.55), 0 0 24px rgba(255, 130, 185, 0.35);
+    }
+    .vinyl-disc {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #0b1a2e 0%, #030812 70%);
+      border: 1.5px solid rgba(255, 200, 230, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(100, 180, 255, 0.3);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .vinyl-disc.playing {
+      animation: spinVinyl 6s linear infinite;
+    }
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .vinyl-art {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.92;
+    }
+    .vinyl-center-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffb8d2;
+      box-shadow: 0 0 6px #fff;
+    }
+    .audio-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      max-width: 155px;
+      user-select: none;
+    }
+    .audio-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 0 8px rgba(255, 180, 210, 0.45);
+    }
+    .audio-artist {
+      font-size: 10.5px;
+      color: rgba(255, 215, 235, 0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Animated Equalizer Waves */
+    .equalizer-waves {
+      display: flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 16px;
+      padding: 0 2px;
+    }
+    .eq-bar {
+      width: 3px;
+      height: 4px;
+      background: linear-gradient(to top, #ff6b9d, #ffd166);
+      border-radius: 2px;
+      transition: height 0.15s ease;
+    }
+    .playing .eq-bar:nth-child(1) { animation: eqJump 0.85s ease-in-out infinite alternate; }
+    .playing .eq-bar:nth-child(2) { animation: eqJump 0.65s ease-in-out 0.2s infinite alternate; }
+    .playing .eq-bar:nth-child(3) { animation: eqJump 0.95s ease-in-out 0.4s infinite alternate; }
+    .playing .eq-bar:nth-child(4) { animation: eqJump 0.75s ease-in-out 0.15s infinite alternate; }
+    @keyframes eqJump {
+      0% { height: 3px; }
+      50% { height: 16px; }
+      100% { height: 6px; }
+    }
+    .audio-ctrl-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .audio-ctrl-btn:hover {
+      background: rgba(255, 107, 157, 0.35);
+      border-color: rgba(255, 180, 215, 0.6);
+      transform: scale(1.08);
+    }
+    .audio-ctrl-btn:active {
+      transform: scale(0.92);
+    }
+    .volume-slider-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .audio-dock:hover .volume-slider-container {
+      max-width: 90px;
+      opacity: 1;
+      margin-left: 4px;
+    }
+    .volume-slider {
+      width: 65px;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ff8cb5;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(255, 140, 185, 0.8);
+    }
+
+    /* =========================================================================
+     * 8. SCREEN TAP PARTICLE SPAWNER
+     * Signature micro-interaction from D:\Nguyen\2010 cô Tâm
+     * ========================================================================= */
+    .tap-spawner-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 130;
+      overflow: hidden;
+    }
+    .tap-particle {
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+      font-size: 20px;
+      filter: drop-shadow(0 0 8px rgba(255, 180, 210, 0.65));
+      animation: floatTapParticle 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      will-change: transform, opacity;
+    }
+    @keyframes floatTapParticle {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      60% {
+        opacity: 0.9;
+        transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(var(--rot));
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--dx) * 1.3), calc(var(--dy) - 50px)) scale(0.85) rotate(calc(var(--rot) * 1.5));
+      }
+    }
+
+    /* =========================================================================
+     * 9. PERSONALIZED WISH CARD MODAL FOR TEACHER & 17 GIRLS
+     * ========================================================================= */
+    .wish-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      background: rgba(3, 8, 20, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .wish-modal-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .wish-card {
+      position: relative;
+      width: 90vw;
+      max-width: 420px;
+      background: linear-gradient(145deg, rgba(28, 16, 36, 0.94), rgba(12, 18, 38, 0.94));
+      border: 1.5px solid rgba(255, 182, 218, 0.45);
+      border-radius: 24px;
+      padding: 28px 24px 22px;
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 120, 180, 0.28);
+      transform: scale(0.85) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+    .wish-modal-backdrop.show .wish-card {
+      transform: scale(1) translateY(0);
+    }
+    .wish-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      background: rgba(255, 107, 157, 0.18);
+      border: 1px solid rgba(255, 180, 215, 0.45);
+      font-size: 12px;
+      color: #ffc2db;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .wish-person-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 16px rgba(255, 160, 200, 0.8), 0 0 30px rgba(255, 107, 157, 0.5);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .wish-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 21px;
+      line-height: 1.55;
+      color: #fae8f0;
+      margin-bottom: 22px;
+      padding: 0 8px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+    .wish-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #ff6b9d, #f43f5e);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 18px rgba(244, 63, 94, 0.45);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .wish-action-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(244, 63, 94, 0.65);
+    }
+    .wish-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .wish-close-btn:hover {
+      background: rgba(255, 80, 120, 0.3);
+      color: #fff;
+    }
+
+    /* =========================================================================
+     * 10. REOPEN LETTER & INTERACTIVE QUICK BUTTONS
+     * ========================================================================= */
+    .btn-reopen-letter {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      background: rgba(20, 26, 46, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.2px solid rgba(255, 190, 220, 0.38);
+      color: #ffe4f0;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.4), 0 0 16px rgba(255, 140, 190, 0.25);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+    }
+    .btn-reopen-letter.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .btn-reopen-letter:hover {
+      background: rgba(32, 42, 70, 0.92);
+      border-color: rgba(255, 190, 220, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 22px rgba(255, 140, 190, 0.4);
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      top: 75px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      z-index: 200;
+      background: rgba(18, 24, 44, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 180, 215, 0.45);
+      padding: 10px 22px;
+      border-radius: 9999px;
+      color: #ffe4f0;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 120, 180, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Custom lantern name label on canvas */
+    .lantern-wish-pill {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+    }
+
+  
+    /* Lantern Modal Tabs & Quick Chips */
+    .lantern-tab {
+      padding: 5px 13px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.75);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lantern-tab.active {
+      background: rgba(244, 63, 94, 0.38);
+      border-color: #f43f5e;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.45);
+    }
+    .quick-wish-chip {
+      padding: 3.5px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 225, 240, 0.9);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quick-wish-chip:hover {
+      background: rgba(255, 107, 157, 0.3);
+      border-color: rgba(255, 180, 215, 0.6);
+      color: #fff;
+      transform: scale(1.04);
+    }
+    .quick-wish-chip:active {
+      transform: scale(0.96);
+    }
+
+    /* Mobile Responsive Fine-tuning */
+    @media (max-width: 640px) {
+      .audio-dock {
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px 4px 6px;
+        gap: 7px;
+      }
+      .audio-info {
+        max-width: 95px;
+      }
+      .audio-title {
+        font-size: 11px;
+      }
+      .audio-artist {
+        font-size: 9px;
+      }
+      #btnSwitchMusicMode {
+        display: none;
+      }
+      #skyTitle {
+        top: 4.2rem !important;
+      }
+    }
+
   </style>
 </head>
 <body class="relative w-full h-full overflow-hidden select-none">
@@ -571,10 +1022,20 @@
           <div class="names-grid" id="namesGrid"></div>
         </div>
 
-        <!-- Close Button -->
-        <div class="mt-5 text-center">
+        <!-- Interactive Actions: Thả Đèn Ước Nguyện & Lưu Thiệp & Đóng thư -->
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <button id="btnReleaseLanternWish"
+            class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xs font-semibold border border-rose-300/40 shadow-sm transition hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5">
+            <span>🏮</span>
+            <span>Thả Đèn Ước Nguyện</span>
+          </button>
+          <button id="btnSaveKeepsake"
+            class="px-3.5 py-1.5 rounded-full bg-[#faeedb] hover:bg-[#f3dfc5] text-[#5c3a21] text-xs font-semibold border border-[#cda882] shadow-sm transition hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5">
+            <span>📷</span>
+            <span>Lưu Thiệp 20/10</span>
+          </button>
           <button id="btnCloseLetter"
-            class="px-5 py-1.5 rounded-full bg-[#e6ccb0]/85 hover:bg-rose-500 hover:text-white text-[#523622] text-xs font-semibold border border-[#cda882] transition shadow-sm cursor-pointer">
+            class="px-4 py-1.5 rounded-full bg-[#e6ccb0]/85 hover:bg-rose-500 hover:text-white text-[#523622] text-xs font-semibold border border-[#cda882] transition shadow-sm cursor-pointer">
             Đóng thư
           </button>
         </div>
@@ -582,21 +1043,158 @@
     </div>
   </div>
 
-  <!-- 6. SOUND / MUSIC TOGGLE BUTTON -->
-  <button id="btnSoundToggle" aria-label="Bật/Tắt âm thanh" title="Âm thanh"
-    class="fixed top-4 right-4 z-50 w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 active:scale-90 backdrop-blur-md border border-white/25 text-white shadow-[0_0_15px_rgba(255,200,230,0.3)] transition-all duration-300 cursor-pointer">
-    <svg id="soundIconOn" class="w-5 h-5 text-pink-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-    </svg>
-    <svg id="soundIconOff" class="w-5 h-5 text-pink-200/50 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l4-4m0 0l-4-4m4 4l-4 4" />
-    </svg>
+  <!-- HIDDEN NATIVE AUDIO ELEMENT (Rex Orange County - It's Not The Same Anymore - Violin Outro) -->
+  <audio id="rexAudio" src="assets/rex_orange_county_violin_outro.mp3" preload="auto" loop></audio>
+
+  <!-- 6. FLOATING AUDIO DOCK (Inspired by D:\Nguyen\2010 cô Tâm\showcase AudioDock) -->
+  <div id="audioDock" class="audio-dock">
+    <!-- Spinning Vinyl Album Art with Oceanic Aura -->
+    <div id="vinylDisc" class="vinyl-disc">
+      <!-- Embedded Mini Artwork representing Rex Orange County - PONY (Warm Amber & Orchestral Glow) -->
+      <svg class="vinyl-art" viewBox="0 0 38 38" fill="none">
+        <rect width="38" height="38" fill="#2a1708"/>
+        <circle cx="19" cy="19" r="16" fill="#452309" stroke="#78350f" stroke-width="1"/>
+        <circle cx="19" cy="19" r="12" fill="#78350f"/>
+        <path d="M13 26 Q19 10 25 26" stroke="rgba(251, 191, 36, 0.6)" stroke-width="1.5" fill="none"/>
+        <circle cx="19" cy="19" r="5" fill="#b45309"/>
+      </svg>
+      <div class="vinyl-center-dot"></div>
+    </div>
+
+    <!-- Song & Artist Details -->
+    <div class="audio-info">
+      <span class="audio-title" title="It's Not The Same Anymore (Violin Outro) - Rex Orange County">It's Not The Same Anymore</span>
+      <span class="audio-artist">Rex Orange County • Violin Outro</span>
+    </div>
+
+    <!-- Live Animated Sound Equalizer Waves -->
+    <div id="eqWaves" class="equalizer-waves" title="Đang phát nhạc">
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+    </div>
+
+    <!-- Play/Pause Control Button -->
+    <button id="btnPlayPauseAudio" class="audio-ctrl-btn" aria-label="Bật/Tạm dừng nhạc" title="Phát / Tạm dừng (Phím Cách)">
+      <svg id="iconPlay" class="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg id="iconPause" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+
+    <!-- Volume & Mute Control -->
+    <div class="volume-slider-container">
+      <button id="btnMuteAudio" class="text-pink-200/80 hover:text-pink-100 transition" title="Tắt / Bật tiếng">
+        <svg id="iconVolHigh" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <svg id="iconVolMuted" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l4-4m0 0l-4-4m4 4l-4 4" />
+        </svg>
+      </button>
+      <input id="volumeSlider" type="range" min="0" max="1" step="0.02" value="0.55" class="volume-slider" title="Âm lượng" />
+    </div>
+
+    <!-- Music Mode Switcher Pill (Billie Eilish <-> Piano Synth) -->
+    <button id="btnSwitchMusicMode" class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-pink-200/90 font-medium border border-white/15 transition cursor-pointer" title="Chuyển chế độ âm nhạc">
+      🎻 Violin Outro
+    </button>
+  </div>
+
+  <!-- 7. REOPEN LETTER FLOATING BUTTON -->
+  <button id="btnReopenLetter" class="btn-reopen-letter" aria-label="Mở lại thư chúc 20/10">
+    <span>💌</span>
+    <span>Đọc lại thư 20/10</span>
   </button>
 
+  <!-- 8. PERSONALIZED WISH CARD MODAL FOR TEACHER & 17 GIRLS -->
+  <div id="personalWishModal" class="wish-modal-backdrop">
+    <div class="wish-card">
+      <button id="btnCloseWishCard" class="wish-close-btn" aria-label="Đóng thiệp">✕</button>
+      <div class="wish-badge">
+        <span>✨</span>
+        <span id="wishCardRole">Lời Chúc Tri Ân 20/10</span>
+        <span>✨</span>
+      </div>
+      <h3 id="wishPersonName" class="wish-person-name">Cô Diệu Hương</h3>
+      <p id="wishCardContent" class="wish-text">
+        Kính chúc Cô luôn ngập tràn niềm vui, sức khỏe và hạnh phúc!
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <button id="btnSpawnWishLanternForPerson" class="wish-action-btn">
+          <span>🏮</span>
+          <span>Thả Đèn Ước Nguyện Cho Bạn</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. SCREEN TAP PARTICLE SPAWNER LAYER -->
+  <div id="tapSpawnerLayer" class="tap-spawner-layer"></div>
+
+    <!-- 11. CUSTOM WISH LANTERN & LOTUS RELEASE MODAL -->
+  <div id="lanternWishModal" class="wish-modal-backdrop">
+    <div class="wish-card text-left">
+      <button id="btnCloseLanternModal" class="wish-close-btn" aria-label="Đóng">✕</button>
+      <div class="text-center mb-3">
+        <div class="wish-badge">
+          <span>🏮</span>
+          <span>Thả Đèn Ước Nguyện 20/10</span>
+          <span>✨</span>
+        </div>
+        <h3 class="font-cursive text-2xl text-pink-100 font-bold">Gửi Nguyện Ước Lên Bầu Trời Đêm</h3>
+      </div>
+
+      <!-- Type Switcher: Sky Lantern vs Water Lotus Lantern -->
+      <div class="flex items-center justify-center gap-2 mb-3.5">
+        <button id="tabSkyLantern" type="button" class="lantern-tab active">🏮 Đèn Lồng Trời</button>
+        <button id="tabWaterLotus" type="button" class="lantern-tab">🪷 Hoa Đăng Mặt Hồ</button>
+      </div>
+
+      <!-- Name Input -->
+      <div class="mb-3">
+        <label class="block text-xs font-semibold text-pink-200/80 mb-1">Tên của bạn hoặc người nhận:</label>
+        <input id="inputLanternSender" type="text" placeholder="Ví dụ: Bảo Ngân, Nhã Lam, Bạn giấu tên..."
+          class="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white text-sm outline-none focus:border-rose-400 placeholder-white/40" />
+      </div>
+
+      <!-- Wish Input -->
+      <div class="mb-3">
+        <label class="block text-xs font-semibold text-pink-200/80 mb-1">Lời nguyện ước 20/10:</label>
+        <input id="inputLanternWish" type="text" placeholder="Nhập lời chúc hoặc điều ước..."
+          class="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white text-sm outline-none focus:border-rose-400 placeholder-white/40" />
+      </div>
+
+      <!-- Quick Presets -->
+      <div class="mb-4">
+        <span class="block text-[11px] text-pink-200/60 mb-1.5">Gợi ý nhanh (chạm để chọn):</span>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" class="quick-wish-chip" data-wish="9/12 mãi luôn gắn kết và hạnh phúc bên nhau! 💖">💖 9/12 mãi bên nhau</button>
+          <button type="button" class="quick-wish-chip" data-wish="Chúc một nửa thế giới 9/12 luôn tự tin, rạng rỡ! 🌸">🌸 Luôn tự tin rạng ngời</button>
+          <button type="button" class="quick-wish-chip" data-wish="Đạt điểm 10 rực rỡ và đỗ nguyện vọng 1 mơ ước! 🎯">🎯 Đỗ nguyện vọng 1</button>
+          <button type="button" class="quick-wish-chip" data-wish="Luôn an nhiên, bình an và ngập tràn may mắn! ✨">✨ Bình an & may mắn</button>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button id="btnSubmitLanternWish" type="button"
+        class="w-full py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2 cursor-pointer transition active:scale-95">
+        <span>✨</span>
+        <span id="btnSubmitLanternText">Thả Đèn Lồng Bay Lên Trời</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 10. TOAST NOTIFICATION -->
+  <div id="toastMsg" class="toast-msg"></div>
+
   <script>
-    /*************************************************************************
-     * 1. 20/10 LETTER CONTENT FOR CLASS 9/12
+        /*************************************************************************
+     * 1. 20/10 LETTER CONTENT & PERSONALIZED WISHES FOR 9/12
      *************************************************************************/
     const letterTitleHTML = 'Gửi Cô <span class="text-rose-500">Diệu Hương</span> & các bạn nữ <span class="text-rose-500">9/12</span>!';
     const letterParagraphs = [
@@ -613,12 +1211,103 @@
       'Vân Anh'
     ];
 
+    // Personalized heartfelt wishes crafted individually for Cô Diệu Hương & 17 female students of 9/12
+    const PERSONAL_WISHES = {
+      'Cô Diệu Hương': {
+        role: 'Người Cô Kính Yêu Của Lớp 9/12',
+        wish: 'Kính chúc Cô Diệu Hương luôn ngập tràn nhiệt huyết và niềm vui, mãi là người lái đò dịu hiền dìu dắt tập thể 9/12 cập bến tương lai rạng ngời nhất! Cảm ơn Cô vì tất cả sự tận tâm và tình yêu thương dành cho tụi em! 💖'
+      },
+      'Bảo Ngân': {
+        role: 'Đóa Hoa Rạng Ngời 9/12',
+        wish: 'Chúc Bảo Ngân luôn rạng rỡ như ánh dương, thông minh, tài năng và mọi ước mơ trong năm học này đều thành công rực rỡ nhé! ✨'
+      },
+      'Nhã Lam': {
+        role: 'Nét Dịu Dàng Trong Trẻo 9/12',
+        wish: 'Chúc Nhã Lam mãi giữ nét dịu dàng, nụ cười an yên và luôn được bao bọc bởi những điều ngọt ngào, ấm áp nhất cuộc sống! 🌸'
+      },
+      'Anh Thư': {
+        role: 'Đóa Hoa Kiêu Hãnh & Tự Tin 9/12',
+        wish: 'Chúc Anh Thư luôn tự tin, bản lĩnh, học thật giỏi và luôn là đóa hoa rạng rỡ, kiêu hãnh của lớp 9/12! 🌷'
+      },
+      'Bảo Khánh': {
+        role: 'Nguồn Năng Lượng Tích Cực 9/12',
+        wish: 'Chúc Bảo Khánh luôn tràn đầy năng lượng tươi vui, nụ cười tỏa nắng và luôn là niềm vui ấm áp cho bạn bè xung quanh! 💖'
+      },
+      'Diệp Anh': {
+        role: 'Cô Gái Xinh Xắn & Duyên Dáng 9/12',
+        wish: 'Chúc Diệp Anh luôn xinh xắn, đáng yêu, tâm hồn trong trẻo và gặt hái thật nhiều điểm 10 cùng những kỷ niệm đẹp tuổi học trò! 🌟'
+      },
+      'Ngọc Giàu': {
+        role: 'Tiếng Cười Hạnh Phúc 9/12',
+        wish: 'Chúc Ngọc Giàu luôn giàu tiếng cười, giàu niềm vui, giàu sự may mắn và hạnh phúc ngập tràn mỗi ngày đến lớp! 💎'
+      },
+      'Bảo Ngọc': {
+        role: 'Viên Ngọc Quý Lung Linh 9/12',
+        wish: 'Chúc Bảo Ngọc luôn là viên ngọc quý xinh đẹp, tỏa sáng lấp lánh theo cách riêng của mình và chạm tới mọi ước nguyện! ✨'
+      },
+      'Khánh Tường': {
+        role: 'Bình An & Cát Tường 9/12',
+        wish: 'Chúc Khánh Tường luôn bình an, may mắn cát tường, vạn sự hanh thông và luôn giữ nụ cười thật tươi trên môi! 🍀'
+      },
+      'Kim Hân': {
+        role: 'Nụ Cười Mùa Xuân 9/12',
+        wish: 'Chúc Kim Hân luôn vui vẻ, hân hoan, rạng rỡ như hoa mùa xuân và luôn được mọi người yêu thương, che chở! 💐'
+      },
+      'Kiều Oanh': {
+        role: 'Giai Điệu Ngọt Ngào 9/12',
+        wish: 'Chúc Kiều Oanh luôn xinh đẹp, ngọt ngào như những thanh âm trong trẻo nhất và luôn tự tin bước về phía trước! 🎶'
+      },
+      'Nhật An': {
+        role: 'Ánh Nắng Ban Mai 9/12',
+        wish: 'Chúc Nhật An mỗi ngày đều an yên, rực rỡ và ấm áp, tương lai rộng mở với muôn vàn điều tuyệt vời! ☀️'
+      },
+      'Khánh An': {
+        role: 'Tâm Hồn Thư Thái & An Nhiên 9/12',
+        wish: 'Chúc Khánh An luôn an nhiên, dịu dàng, học tập xuất sắc và luôn nở nụ cười duyên dáng mỗi ngày! 🌺'
+      },
+      'Ngọc Linh': {
+        role: 'Thông Minh & Linh Hoạt 9/12',
+        wish: 'Chúc Ngọc Linh luôn lanh lợi, thông minh, xinh đẹp và luôn đón nhận những cơ hội tuyệt vời nhất! 💫'
+      },
+      'Uyên Nhi': {
+        role: 'Cô Gái Dễ Thương 9/12',
+        wish: 'Chúc Uyên Nhi mãi đáng yêu, trong sáng, học giỏi và luôn là niềm tự hào dễ thương của cả lớp 9/12! 🎀'
+      },
+      'Phương Trinh': {
+        role: 'Thanh Lịch & Duyên Dáng 9/12',
+        wish: 'Chúc Phương Trinh luôn duyên dáng, thanh lịch, rạng ngời và luôn vững bước trên mọi ước mơ tương lai! 🌹'
+      },
+      'Mai Nhi': {
+        role: 'Hoa Mai Tươi Thắm 9/12',
+        wish: 'Chúc Mai Nhi tươi tắn như hoa mai sớm, luôn tràn ngập niềm vui và nhận được thật nhiều điều bất ngờ hạnh phúc! 🌼'
+      },
+      'Vân Anh': {
+        role: 'Mây Trời Thanh Khiết 9/12',
+        wish: 'Chúc Vân Anh nhẹ nhàng như mây trời, xinh đẹp, tài hoa và luôn có một ngày 20/10 thật trọn vẹn, đáng nhớ! ☁️💖'
+      }
+    };
+
     /*************************************************************************
-     * 2. AUDIO SYNTHESIZER
+     * 2. AUDIO ENGINE (Rex Orange County - It's Not The Same Anymore Violin Outro & Synthesizer Fallback)
+     * Inspired by D:\Nguyen\2010 cô Tâm\showcase AudioDock
      *************************************************************************/
+    const rexAudio = document.getElementById('rexAudio');
+    const vinylDisc = document.getElementById('vinylDisc');
+    const eqWaves = document.getElementById('eqWaves');
+    const btnPlayPauseAudio = document.getElementById('btnPlayPauseAudio');
+    const iconPlay = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+    const btnMuteAudio = document.getElementById('btnMuteAudio');
+    const iconVolHigh = document.getElementById('iconVolHigh');
+    const iconVolMuted = document.getElementById('iconVolMuted');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const btnSwitchMusicMode = document.getElementById('btnSwitchMusicMode');
+
     let audioCtx = null;
     let isMusicPlaying = false;
     let isSoundMuted = false;
+    let currentVolume = 0.55;
+    let audioMode = 'rex'; // 'rex' or 'piano'
     let melodyTimer = null;
     let noteIndex = 0;
 
@@ -646,20 +1335,65 @@
       }
     }
 
-    function toggleSound(e) {
-      if (e) e.stopPropagation();
-      ensureAudio();
-      isSoundMuted = !isSoundMuted;
-      const soundIconOn = document.getElementById('soundIconOn');
-      const soundIconOff = document.getElementById('soundIconOff');
-      if (isSoundMuted) {
-        if (soundIconOn) soundIconOn.classList.add('hidden');
-        if (soundIconOff) soundIconOff.classList.remove('hidden');
+    function updateAudioUI() {
+      if (isMusicPlaying) {
+        vinylDisc.classList.add('playing');
+        eqWaves.classList.add('playing');
+        iconPlay.classList.add('hidden');
+        iconPause.classList.remove('hidden');
       } else {
-        if (soundIconOff) soundIconOff.classList.add('hidden');
-        if (soundIconOn) soundIconOn.classList.remove('hidden');
-        if (!isMusicPlaying) startMusic();
+        vinylDisc.classList.remove('playing');
+        eqWaves.classList.remove('playing');
+        iconPlay.classList.remove('hidden');
+        iconPause.classList.add('hidden');
       }
+
+      if (isSoundMuted || currentVolume === 0) {
+        iconVolHigh.classList.add('hidden');
+        iconVolMuted.classList.remove('hidden');
+      } else {
+        iconVolHigh.classList.remove('hidden');
+        iconVolMuted.classList.add('hidden');
+      }
+    }
+
+    function playAudioTrack() {
+      ensureAudio();
+      isMusicPlaying = true;
+      if (audioMode === 'rex' && rexAudio) {
+        rexAudio.volume = isSoundMuted ? 0 : currentVolume;
+        rexAudio.play().then(() => {
+          updateAudioUI();
+        }).catch(err => {
+          console.warn('Native audio play error, falling back to Web Audio Piano:', err);
+          audioMode = 'piano';
+          btnSwitchMusicMode.textContent = '🎹 Piano Tinh Tế';
+          startPianoMusic();
+        });
+      } else {
+        startPianoMusic();
+      }
+      updateAudioUI();
+    }
+
+    function pauseAudioTrack() {
+      isMusicPlaying = false;
+      if (rexAudio) rexAudio.pause();
+      if (melodyTimer) { clearInterval(melodyTimer); melodyTimer = null; }
+      updateAudioUI();
+    }
+
+    function toggleAudio() {
+      if (isMusicPlaying) {
+        pauseAudioTrack();
+      } else {
+        playAudioTrack();
+      }
+    }
+
+    function startMusic() {
+      // Called when user holds/clicks the gift button
+      if (!isMusicPlaying) playAudioTrack();
     }
 
     function playPianoNote(freq, dur = 1.6, vol = 0.055) {
@@ -671,13 +1405,26 @@
       osc.frequency.setValueAtTime(freq, now);
 
       gain.gain.setValueAtTime(0.0008, now);
-      gain.gain.linearRampToValueAtTime(vol, now + 0.04);
+      gain.gain.linearRampToValueAtTime(vol * currentVolume, now + 0.04);
       gain.gain.exponentialRampToValueAtTime(0.0005, now + dur);
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
       osc.stop(now + dur);
+    }
+
+    function startPianoMusic() {
+      if (melodyTimer) clearInterval(melodyTimer);
+      melodyTimer = setInterval(() => {
+        if (!isMusicPlaying || isSoundMuted || audioMode !== 'piano') return;
+        const step = ROMANTIC_MELODY[noteIndex % ROMANTIC_MELODY.length];
+        playPianoNote(step.m, 1.85, 0.06);
+        step.c.forEach((cf, idx) => {
+          setTimeout(() => playPianoNote(cf, 2.1, 0.03), idx * 90);
+        });
+        noteIndex++;
+      }, 670);
     }
 
     function playSparkleChime() {
@@ -694,7 +1441,7 @@
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(f, now);
           gain.gain.setValueAtTime(0.001, now);
-          gain.gain.linearRampToValueAtTime(0.045, now + 0.02);
+          gain.gain.linearRampToValueAtTime(0.045 * currentVolume, now + 0.02);
           gain.gain.exponentialRampToValueAtTime(0.0006, now + 0.65);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
@@ -704,20 +1451,57 @@
       });
     }
 
-    function startMusic() {
-      ensureAudio();
-      if (isMusicPlaying) return;
-      isMusicPlaying = true;
-      melodyTimer = setInterval(() => {
-        if (!isMusicPlaying || isSoundMuted) return;
-        const step = ROMANTIC_MELODY[noteIndex % ROMANTIC_MELODY.length];
-        playPianoNote(step.m, 1.85, 0.06);
-        step.c.forEach((cf, idx) => {
-          setTimeout(() => playPianoNote(cf, 2.1, 0.03), idx * 90);
-        });
-        noteIndex++;
-      }, 670);
+    // Audio controls event listeners
+    if (btnPlayPauseAudio) {
+      btnPlayPauseAudio.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleAudio();
+      });
     }
+    if (btnMuteAudio) {
+      btnMuteAudio.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isSoundMuted = !isSoundMuted;
+        if (rexAudio) rexAudio.muted = isSoundMuted;
+        updateAudioUI();
+      });
+    }
+    if (volumeSlider) {
+      volumeSlider.addEventListener('input', (e) => {
+        currentVolume = parseFloat(e.target.value);
+        if (rexAudio) {
+          rexAudio.volume = currentVolume;
+          rexAudio.muted = (currentVolume === 0);
+        }
+        isSoundMuted = (currentVolume === 0);
+        updateAudioUI();
+      });
+    }
+    if (btnSwitchMusicMode) {
+      btnSwitchMusicMode.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (audioMode === 'rex') {
+          audioMode = 'piano';
+          btnSwitchMusicMode.textContent = '🎹 Piano Tinh Tế';
+          if (rexAudio) rexAudio.pause();
+          if (isMusicPlaying) startPianoMusic();
+        } else {
+          audioMode = 'rex';
+          btnSwitchMusicMode.textContent = '🎻 Violin Outro';
+          if (melodyTimer) { clearInterval(melodyTimer); melodyTimer = null; }
+          if (isMusicPlaying) playAudioTrack();
+        }
+      });
+    }
+
+    // Spacebar to play/pause music
+    window.addEventListener('keydown', (e) => {
+      const tag = document.activeElement ? document.activeElement.tagName : '';
+      if (e.code === 'Space' && !['INPUT', 'TEXTAREA', 'BUTTON'].includes(tag)) {
+        e.preventDefault();
+        toggleAudio();
+      }
+    });
 
     /*************************************************************************
      * 3. NIGHT SKY & BOUQUET ENGINE
@@ -825,13 +1609,140 @@
       { tx:   36, ty: -136, cx:  24, cy:  -90, w: 16, delay: 0.50, phase: 1.9, back: false }
     ];
 
+        // Offscreen Canvas Cache Objects (Pre-baked once to eliminate full-screen gradient lag)
+    let bgCanvas = document.createElement('canvas');
+    let bgCtx = bgCanvas.getContext('2d');
+
+    let moonHaloCanvas = document.createElement('canvas');
+    let moonHaloCtx = moonHaloCanvas.getContext('2d');
+
+    let lanternGlowCanvas = document.createElement('canvas');
+    let lanternGlowCtx = lanternGlowCanvas.getContext('2d');
+
+    let lanternFlameCanvas = document.createElement('canvas');
+    let lanternFlameCtx = lanternFlameCanvas.getContext('2d');
+
+    let lotusGlowCanvas = document.createElement('canvas');
+    let lotusGlowCtx = lotusGlowCanvas.getContext('2d');
+
+    let cachedLakeGrad = null;
+    let cachedMoonColGrad = null;
+
+    function bakeStaticAssets(moonX, moonY, lakeTopY, lakeBottomY) {
+      // 1. Bake Full-Screen Sky & Atmosphere (eliminates 4 full-screen gradients every frame!)
+      bgCanvas.width = W;
+      bgCanvas.height = H;
+
+      const skyGrad = bgCtx.createLinearGradient(0, 0, 0, H);
+      skyGrad.addColorStop(0, '#020510');
+      skyGrad.addColorStop(0.12, '#080c24');
+      skyGrad.addColorStop(0.3, '#0b1538');
+      skyGrad.addColorStop(0.5, '#10224a');
+      skyGrad.addColorStop(0.68, '#152d56');
+      skyGrad.addColorStop(0.82, '#183560');
+      skyGrad.addColorStop(1, '#1c3c6a');
+      bgCtx.fillStyle = skyGrad;
+      bgCtx.fillRect(0, 0, W, H);
+
+      const warmTint = bgCtx.createRadialGradient(W*0.75, H*0.1, 0, W*0.75, H*0.1, Math.max(W,H)*0.5);
+      warmTint.addColorStop(0, 'rgba(65,25,85,0.07)');
+      warmTint.addColorStop(0.5, 'rgba(40,15,55,0.035)');
+      warmTint.addColorStop(1, 'rgba(0,0,0,0)');
+      bgCtx.fillStyle = warmTint; bgCtx.fillRect(0,0,W,H);
+
+      const roseTint = bgCtx.createRadialGradient(W*0.5, H*0.65, 0, W*0.5, H*0.65, Math.max(W,H)*0.6);
+      roseTint.addColorStop(0, 'rgba(80,20,45,0.04)');
+      roseTint.addColorStop(0.5, 'rgba(50,10,30,0.02)');
+      roseTint.addColorStop(1, 'rgba(0,0,0,0)');
+      bgCtx.fillStyle = roseTint; bgCtx.fillRect(0,0,W,H);
+
+      const horizGlow = bgCtx.createLinearGradient(0, H*0.6, 0, H*0.78);
+      horizGlow.addColorStop(0, 'rgba(0,0,0,0)');
+      horizGlow.addColorStop(0.5, 'rgba(35,18,45,0.06)');
+      horizGlow.addColorStop(1, 'rgba(60,25,40,0.04)');
+      bgCtx.fillStyle = horizGlow; bgCtx.fillRect(0,0,W,H);
+
+      // 2. Bake Moon Halos (256x256)
+      moonHaloCanvas.width = moonHaloCanvas.height = 256;
+      const mhc = 128;
+      const mh3 = moonHaloCtx.createRadialGradient(mhc, mhc, 20, mhc, mhc, 126);
+      mh3.addColorStop(0, 'rgba(200,215,240,0.035)');
+      mh3.addColorStop(0.35, 'rgba(160,185,225,0.015)');
+      mh3.addColorStop(1, 'rgba(100,140,200,0)');
+      moonHaloCtx.fillStyle = mh3;
+      moonHaloCtx.beginPath(); moonHaloCtx.arc(mhc, mhc, 126, 0, Math.PI*2); moonHaloCtx.fill();
+
+      const mh2 = moonHaloCtx.createRadialGradient(mhc, mhc, 10, mhc, mhc, 80);
+      mh2.addColorStop(0, 'rgba(225,233,250,0.07)');
+      mh2.addColorStop(0.5, 'rgba(185,205,238,0.025)');
+      mh2.addColorStop(1, 'rgba(130,160,210,0)');
+      moonHaloCtx.fillStyle = mh2;
+      moonHaloCtx.beginPath(); moonHaloCtx.arc(mhc, mhc, 80, 0, Math.PI*2); moonHaloCtx.fill();
+
+      const mh1 = moonHaloCtx.createRadialGradient(mhc, mhc, 5, mhc, mhc, 48);
+      mh1.addColorStop(0, 'rgba(245,248,255,0.16)');
+      mh1.addColorStop(0.5, 'rgba(210,220,245,0.05)');
+      mh1.addColorStop(1, 'rgba(160,180,220,0)');
+      moonHaloCtx.fillStyle = mh1;
+      moonHaloCtx.beginPath(); moonHaloCtx.arc(mhc, mhc, 48, 0, Math.PI*2); moonHaloCtx.fill();
+
+      // 3. Bake Lantern Corona Glow Stamp (64x64)
+      lanternGlowCanvas.width = lanternGlowCanvas.height = 64;
+      const lgc = 32;
+      const lgGrad = lanternGlowCtx.createRadialGradient(lgc, lgc, 2, lgc, lgc, 31);
+      lgGrad.addColorStop(0, 'rgba(255, 185, 95, 0.55)');
+      lgGrad.addColorStop(0.35, 'rgba(255, 130, 45, 0.22)');
+      lgGrad.addColorStop(0.7, 'rgba(255, 80, 15, 0.06)');
+      lgGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      lanternGlowCtx.fillStyle = lgGrad;
+      lanternGlowCtx.beginPath(); lanternGlowCtx.arc(lgc, lgc, 31, 0, Math.PI*2); lanternGlowCtx.fill();
+
+      // 4. Bake Lantern Flame Stamp (32x32)
+      lanternFlameCanvas.width = lanternFlameCanvas.height = 32;
+      const lfc = 16;
+      const lfGrad = lanternFlameCtx.createRadialGradient(lfc, lfc, 0, lfc, lfc, 15);
+      lfGrad.addColorStop(0, 'rgba(255, 255, 245, 1.0)');
+      lfGrad.addColorStop(0.45, 'rgba(255, 225, 120, 0.85)');
+      lfGrad.addColorStop(0.85, 'rgba(255, 140, 30, 0.4)');
+      lfGrad.addColorStop(1, 'rgba(255, 80, 10, 0)');
+      lanternFlameCtx.fillStyle = lfGrad;
+      lanternFlameCtx.beginPath(); lanternFlameCtx.arc(lfc, lfc, 15, 0, Math.PI*2); lanternFlameCtx.fill();
+
+      // 5. Bake Lotus Lantern Water Reflection Stamp (64x32)
+      lotusGlowCanvas.width = 64; lotusGlowCanvas.height = 32;
+      const lotGrad = lotusGlowCtx.createRadialGradient(32, 16, 0, 32, 16, 31);
+      lotGrad.addColorStop(0, 'rgba(255, 195, 100, 0.45)');
+      lotGrad.addColorStop(0.4, 'rgba(255, 140, 50, 0.18)');
+      lotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      lotusGlowCtx.fillStyle = lotGrad;
+      lotusGlowCtx.beginPath(); lotusGlowCtx.arc(32, 16, 31, 0, Math.PI*2); lotusGlowCtx.fill();
+
+      // 6. Pre-calculate Lake Gradients
+      cachedLakeGrad = ctx.createLinearGradient(0, lakeTopY, 0, lakeBottomY);
+      cachedLakeGrad.addColorStop(0, '#041026');
+      cachedLakeGrad.addColorStop(0.28, '#06173a');
+      cachedLakeGrad.addColorStop(0.65, '#071f45');
+      cachedLakeGrad.addColorStop(1, '#05142b');
+
+      cachedMoonColGrad = ctx.createRadialGradient(moonX, lakeTopY + 45, 10, moonX, lakeTopY + 45, Math.max(W * 0.35, 240));
+      cachedMoonColGrad.addColorStop(0, 'rgba(215, 235, 255, 0.18)');
+      cachedMoonColGrad.addColorStop(0.25, 'rgba(165, 205, 245, 0.09)');
+      cachedMoonColGrad.addColorStop(0.65, 'rgba(110, 160, 220, 0.025)');
+      cachedMoonColGrad.addColorStop(1, 'rgba(10, 25, 60, 0)');
+    }
+
     function initScene() {
       W = window.innerWidth;
       H = window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, W > 1024 ? 1.0 : 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, W > 1024 ? 1.25 : 1.5);
       canvas.width = Math.floor(W * dpr);
       canvas.height = Math.floor(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const mX = W * 0.17;
+      const mY = H * 0.12;
+      const horizY = H * 0.72;
+      bakeStaticAssets(mX, mY, horizY + 10, H - 55);
 
       stars.length = 0;
       const starCount = Math.min(180, Math.floor((W * H) / 5000));
@@ -1941,31 +2852,8 @@
       const px = (mouseX - 0.5) * 2; // -1 to 1
       const py = (mouseY - 0.5) * 2;
 
-      // Premium deep sky with warm undertones
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
-      skyGrad.addColorStop(0, '#020510');
-      skyGrad.addColorStop(0.12, '#080c24');
-      skyGrad.addColorStop(0.3, '#0b1538');
-      skyGrad.addColorStop(0.5, '#10224a');
-      skyGrad.addColorStop(0.68, '#152d56');
-      skyGrad.addColorStop(0.82, '#183560');
-      skyGrad.addColorStop(1, '#1c3c6a');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, W, H);
-
-      // Warm purple atmosphere
-      const warmTint = ctx.createRadialGradient(W*0.75, H*0.1, 0, W*0.75, H*0.1, Math.max(W,H)*0.5);
-      warmTint.addColorStop(0, 'rgba(65,25,85,0.07)');
-      warmTint.addColorStop(0.5, 'rgba(40,15,55,0.035)');
-      warmTint.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = warmTint; ctx.fillRect(0,0,W,H);
-
-      // Secondary rose-tinted atmosphere (for 20/10)
-      const roseTint = ctx.createRadialGradient(W*0.5, H*0.65, 0, W*0.5, H*0.65, Math.max(W,H)*0.6);
-      roseTint.addColorStop(0, 'rgba(80,20,45,0.04)');
-      roseTint.addColorStop(0.5, 'rgba(50,10,30,0.02)');
-      roseTint.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = roseTint; ctx.fillRect(0,0,W,H);
+      // Ultra-Fast Blit Pre-baked Sky & Atmospheric Tints (0% CPU cost, locked 60 FPS)
+      ctx.drawImage(bgCanvas, 0, 0);
 
       // === AURORA BOREALIS (DẢI CỰC QUANG HUYỀN DIỆU) ===
       for (const aw of auroraWaves) {
@@ -1997,12 +2885,7 @@
         ctx.restore();
       }
 
-      // Horizon glow (warm amber-rose at the base)
-      const horizGlow = ctx.createLinearGradient(0, H*0.6, 0, H*0.78);
-      horizGlow.addColorStop(0, 'rgba(0,0,0,0)');
-      horizGlow.addColorStop(0.5, 'rgba(35,18,45,0.06)');
-      horizGlow.addColorStop(1, 'rgba(60,25,40,0.04)');
-      ctx.fillStyle = horizGlow; ctx.fillRect(0,0,W,H);
+      // Horizon glow baked into bgCanvas
 
       // === CRESCENT MOON === (with parallax)
       const moonX = W * 0.17 + px * 8, moonY = H * 0.12 + py * 5, moonR = Math.min(34, W * 0.075);
@@ -2033,30 +2916,9 @@
       }
       ctx.restore();
 
-      // Outer halo layers (pulsing, bounded to circle for 90%+ less fillrate)
+      // Pre-baked Moon Halos Blit (zero allocations per frame)
       const h3R = moonR * 5.2 * moonPulse;
-      const halo3 = ctx.createRadialGradient(moonX, moonY, moonR * 0.8, moonX, moonY, h3R);
-      halo3.addColorStop(0, 'rgba(200,215,240,0.035)');
-      halo3.addColorStop(0.35, 'rgba(160,185,225,0.015)');
-      halo3.addColorStop(1, 'rgba(100,140,200,0)');
-      ctx.fillStyle = halo3;
-      ctx.beginPath(); ctx.arc(moonX, moonY, h3R, 0, Math.PI * 2); ctx.fill();
-
-      const h2R = moonR * 3.2 * moonPulse;
-      const halo2 = ctx.createRadialGradient(moonX, moonY, moonR * 0.4, moonX, moonY, h2R);
-      halo2.addColorStop(0, 'rgba(225,233,250,0.07)');
-      halo2.addColorStop(0.5, 'rgba(185,205,238,0.025)');
-      halo2.addColorStop(1, 'rgba(130,160,210,0)');
-      ctx.fillStyle = halo2;
-      ctx.beginPath(); ctx.arc(moonX, moonY, h2R, 0, Math.PI * 2); ctx.fill();
-
-      const h1R = moonR * 1.9;
-      const halo1 = ctx.createRadialGradient(moonX, moonY, moonR * 0.2, moonX, moonY, h1R);
-      halo1.addColorStop(0, 'rgba(245,248,255,0.16)');
-      halo1.addColorStop(0.5, 'rgba(210,220,245,0.05)');
-      halo1.addColorStop(1, 'rgba(160,180,220,0)');
-      ctx.fillStyle = halo1;
-      ctx.beginPath(); ctx.arc(moonX, moonY, h1R, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(moonHaloCanvas, moonX - h3R, moonY - h3R, h3R * 2, h3R * 2);
 
       // Moon body (crescent)
       ctx.save();
@@ -2243,17 +3105,12 @@
           continue;
         }
 
-        // 1. Warm outer corona glow
+        // 1. Warm outer corona glow (blitted from cached stamp)
         const glowR = l.size * 3.6;
-        const radGlow = ctx.createRadialGradient(lx, ly, l.size * 0.2, lx, ly, glowR);
-        radGlow.addColorStop(0, `hsla(${l.hue}, 95%, 68%, ${lAlpha * 0.42 * flicker})`);
-        radGlow.addColorStop(0.35, `hsla(${l.hue - 8}, 90%, 56%, ${lAlpha * 0.16 * flicker})`);
-        radGlow.addColorStop(0.7, `hsla(${l.hue - 15}, 85%, 45%, ${lAlpha * 0.04 * flicker})`);
-        radGlow.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = radGlow;
-        ctx.beginPath();
-        ctx.arc(lx, ly, glowR, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.save();
+        ctx.globalAlpha = lAlpha * flicker;
+        ctx.drawImage(lanternGlowCanvas, lx - glowR, ly - glowR, glowR * 2, glowR * 2);
+        ctx.restore();
 
         // 2. Lantern paper body (subtle rounded trapezoid)
         const lw = l.size * 0.95;
@@ -2312,6 +3169,18 @@
         ctx.ellipse(0, lh * 0.47, lw * 0.46, l.size * 0.1, 0, 0, Math.PI * 2);
         ctx.stroke();
 
+        // 6. Custom Wish / Dedication Label on Personal Wish Lanterns
+        if (l.customName) {
+          ctx.save();
+          ctx.font = '600 9.5px "Quicksand", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = `rgba(255, 245, 230, ${lAlpha * 0.95})`;
+          ctx.shadowColor = 'rgba(255, 120, 180, 0.8)';
+          ctx.shadowBlur = 6;
+          ctx.fillText('🏮 ' + l.customName, 0, lh * 0.85);
+          ctx.restore();
+        }
+
         ctx.restore();
       }
 
@@ -2362,13 +3231,8 @@
         const lakeTopY = horizonY + 10;
         const lakeBottomY = H - 55;
 
-        // 1. Deep midnight water surface
-        const lakeGrad = ctx.createLinearGradient(0, lakeTopY, 0, lakeBottomY);
-        lakeGrad.addColorStop(0, '#041026');
-        lakeGrad.addColorStop(0.28, '#06173a');
-        lakeGrad.addColorStop(0.65, '#071f45');
-        lakeGrad.addColorStop(1, '#05142b');
-        ctx.fillStyle = lakeGrad;
+        // 1. Deep midnight water surface (Cached gradient)
+        ctx.fillStyle = cachedLakeGrad || '#041026';
         ctx.beginPath();
         ctx.moveTo(0, lakeTopY);
         ctx.lineTo(W, lakeTopY);
@@ -2377,13 +3241,8 @@
         ctx.closePath();
         ctx.fill();
 
-        // 2. Wide moonlight path / silver reflection column
-        const moonColGrad = ctx.createRadialGradient(moonX, lakeTopY + 45, 10, moonX, lakeTopY + 45, Math.max(W * 0.35, 240));
-        moonColGrad.addColorStop(0, 'rgba(215, 235, 255, 0.18)');
-        moonColGrad.addColorStop(0.25, 'rgba(165, 205, 245, 0.09)');
-        moonColGrad.addColorStop(0.65, 'rgba(110, 160, 220, 0.025)');
-        moonColGrad.addColorStop(1, 'rgba(10, 25, 60, 0)');
-        ctx.fillStyle = moonColGrad;
+        // 2. Wide moonlight path / silver reflection column (Cached gradient)
+        ctx.fillStyle = cachedMoonColGrad || 'rgba(215, 235, 255, 0.09)';
         ctx.fillRect(0, lakeTopY, W, H - lakeTopY);
 
         // 3. Wavering inverted reflections of floating sky lanterns on water
@@ -2487,6 +3346,19 @@
           ctx.beginPath();
           ctx.arc(wx, wy - wl.size * 0.15, flameR, 0, Math.PI * 2);
           ctx.fill();
+
+          // Custom Lotus Lantern Name Tag
+          if (wl.customName) {
+            ctx.save();
+            ctx.font = '600 10px "Quicksand", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(255, 240, 220, 0.95)';
+            ctx.shadowColor = 'rgba(255, 180, 80, 0.8)';
+            ctx.shadowBlur = 6;
+            ctx.fillText('🪷 ' + wl.customName, wx, wy - wl.size * 0.85);
+            ctx.restore();
+          }
+
           ctx.restore();
         }
 
@@ -2815,20 +3687,9 @@
     btnHold.addEventListener('mousedown', beginHold);
     btnHold.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (appState === 'HOLD' && !isHolding) {
-        startMusic();
-        function fastFill() {
-          if (appState !== 'HOLD') return;
-          holdProgress += 9.5;
-          const offset = 263.9 - (Math.min(100, holdProgress) / 100) * 263.9;
-          holdRing.style.strokeDashoffset = offset;
-          if (holdProgress >= 100) {
-            triggerBouquetGrowth();
-          } else {
-            requestAnimationFrame(fastFill);
-          }
-        }
-        requestAnimationFrame(fastFill);
+      startMusic();
+      if (appState === 'HOLD') {
+        triggerBouquetGrowth();
       }
     });
     btnHold.addEventListener('touchstart', beginHold, { passive: false });
@@ -2875,6 +3736,7 @@
 
     function openVintageLetter(e) {
       if (e) e.stopPropagation();
+      if (btnReopenLetter) btnReopenLetter.classList.remove('show');
       playSparkleChime();
       spawnSparkleBurst(W * 0.5, H * 0.5, 35);
 
@@ -2939,14 +3801,12 @@
         const teacherTag = document.getElementById('teacherTag');
         if (teacherTag) {
           teacherTag.style.animationDelay = '50ms';
-          teacherTag.title = 'Chạm vào để gửi lời tri ân đến Cô!';
+          teacherTag.title = 'Chạm vào để xem lời chúc tri ân đặc biệt dành cho Cô!';
           teacherTag.onclick = (e) => {
             e.stopPropagation();
             teacherTag.classList.add('active');
             setTimeout(() => teacherTag.classList.remove('active'), 500);
-            playSparkleChime();
-            const rect = teacherTag.getBoundingClientRect();
-            spawnSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 35);
+            openPersonalWishCard('Cô Diệu Hương');
           };
         }
 
@@ -2955,14 +3815,12 @@
           tag.className = 'name-tag';
           tag.textContent = name;
           tag.style.animationDelay = ((i + 1) * 70) + 'ms';
-          tag.title = 'Chạm vào để gửi lời chúc!';
+          tag.title = 'Chạm vào để xem lời chúc riêng dành cho bạn!';
           tag.addEventListener('click', (e) => {
             e.stopPropagation();
             tag.classList.add('active');
             setTimeout(() => tag.classList.remove('active'), 450);
-            playSparkleChime();
-            const rect = tag.getBoundingClientRect();
-            spawnSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
+            openPersonalWishCard(name);
           });
           namesGrid.appendChild(tag);
         });
@@ -2991,10 +3849,14 @@
       vintageLetterModal.classList.remove('scale-100');
       vintageLetterModal.classList.add('scale-75');
 
-      // Ẩn hoàn toàn phong thư nhỏ trên bó hoa khi bấm đóng thư
       envelopeCard.classList.remove('opacity-100', 'pointer-events-auto');
       envelopeCard.classList.add('opacity-0', 'pointer-events-none');
       envelopeCard.style.display = 'none';
+
+      // Show floating Reopen Letter button so she can reopen anytime!
+      if (btnReopenLetter) {
+        btnReopenLetter.classList.add('show');
+      }
     }
 
     document.getElementById('btnCloseLetter').addEventListener('click', closeVintageLetter);
@@ -3010,6 +3872,282 @@
       spawnSparkleBurst(e.clientX, e.clientY, 16);
       if (Math.random() < 0.35) playSparkleChime();
     });
+
+    
+    // Toast notification helper
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toastMsg');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
+    // Function to release a custom floating sky lantern with dedication
+    function releaseCustomSkyLantern(name, wish = '') {
+      lanterns.push({
+        x: W * 0.5 + (Math.random() - 0.5) * (W * 0.35),
+        y: H - 80,
+        size: 10.5,
+        speed: 0.55 + Math.random() * 0.25,
+        drift: (Math.random() - 0.5) * 0.25,
+        wobbleSpeed: 0.0016,
+        wobblePhase: Math.random() * Math.PI * 2,
+        glowPhase: Math.random() * Math.PI * 2,
+        alpha: 1.0,
+        hue: 38,
+        customName: name,
+        customWish: wish
+      });
+      playSparkleChime();
+      spawnSparkleBurst(W * 0.5, H - 90, 40);
+      showToast('🏮 Đèn ước nguyện của ' + name + ' đã bay lên bầu trời đêm 20/10!');
+    }
+
+    // Personalized Wish Card Modal logic
+    const personalWishModal = document.getElementById('personalWishModal');
+    const wishPersonName = document.getElementById('wishPersonName');
+    const wishCardRole = document.getElementById('wishCardRole');
+    const wishCardContent = document.getElementById('wishCardContent');
+    const btnCloseWishCard = document.getElementById('btnCloseWishCard');
+    const btnSpawnWishLanternForPerson = document.getElementById('btnSpawnWishLanternForPerson');
+    let currentSelectedPerson = '';
+
+    function openPersonalWishCard(name) {
+      currentSelectedPerson = name;
+      const data = PERSONAL_WISHES[name] || {
+        role: 'Lời Chúc 20/10 Thân Thương',
+        wish: 'Chúc bạn luôn xinh đẹp, rạng rỡ, ngập tràn niềm vui và luôn hạnh phúc mỗi ngày! 💖'
+      };
+
+      wishPersonName.textContent = name;
+      wishCardRole.textContent = data.role;
+      wishCardContent.textContent = data.wish;
+      btnSpawnWishLanternForPerson.querySelector('span:last-child').textContent = 'Thả Đèn Ước Nguyện Cho ' + name;
+
+      personalWishModal.classList.add('show');
+      playSparkleChime();
+      spawnSparkleBurst(W * 0.5, H * 0.5, 45);
+    }
+
+    function closePersonalWishCard() {
+      personalWishModal.classList.remove('show');
+    }
+
+    if (btnCloseWishCard) {
+      btnCloseWishCard.addEventListener('click', closePersonalWishCard);
+    }
+    if (personalWishModal) {
+      personalWishModal.addEventListener('click', (e) => {
+        if (e.target === personalWishModal) closePersonalWishCard();
+      });
+    }
+    if (btnSpawnWishLanternForPerson) {
+      btnSpawnWishLanternForPerson.addEventListener('click', () => {
+        closePersonalWishCard();
+        releaseCustomSkyLantern(currentSelectedPerson);
+      });
+    }
+
+    // SCREEN TAP PARTICLE SPAWNER (Signature from D:\Nguyen\2010 cô Tâm)
+    const tapSpawnerLayer = document.getElementById('tapSpawnerLayer');
+    const tapEmojis = ['💖', '🌸', '🌷', '✨', '💌', '🕊️', '💐', '🎀', '⭐', '🌺'];
+
+    function spawnTapParticles(clientX, clientY) {
+      if (!tapSpawnerLayer) return;
+      const count = 5 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement('span');
+        span.className = 'tap-particle';
+        span.textContent = tapEmojis[Math.floor(Math.random() * tapEmojis.length)];
+        span.style.left = clientX + 'px';
+        span.style.top = clientY + 'px';
+
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const dist = 45 + Math.random() * 55;
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist - 35;
+        const rot = (Math.random() - 0.5) * 60;
+
+        span.style.setProperty('--dx', dx + 'px');
+        span.style.setProperty('--dy', dy + 'px');
+        span.style.setProperty('--rot', rot + 'deg');
+
+        tapSpawnerLayer.appendChild(span);
+        setTimeout(() => span.remove(), 1400);
+      }
+    }
+
+    window.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#btnHold, #audioDock, #vintageLetterModal, #btnCloseLetter, #personalWishModal, #btnReopenLetter')) return;
+      spawnTapParticles(e.clientX, e.clientY);
+      spawnSparkleBurst(e.clientX, e.clientY, 16);
+      if (Math.random() < 0.35) playSparkleChime();
+    });
+
+    // Reopen letter floating button
+    const btnReopenLetter = document.getElementById('btnReopenLetter');
+    if (btnReopenLetter) {
+      btnReopenLetter.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openVintageLetter(e);
+      });
+    }
+
+    // Save Keepsake Card Photo
+    const btnSaveKeepsake = document.getElementById('btnSaveKeepsake');
+    if (btnSaveKeepsake) {
+      btnSaveKeepsake.addEventListener('click', (e) => {
+        e.stopPropagation();
+        saveKeepsakePhoto();
+      });
+    }
+
+    function saveKeepsakePhoto() {
+      playSparkleChime();
+      spawnSparkleBurst(W * 0.5, H * 0.5, 50);
+
+      // Create snapshot canvas
+      const snapCanvas = document.createElement('canvas');
+      snapCanvas.width = 1200;
+      snapCanvas.height = 800;
+      const sCtx = snapCanvas.getContext('2d');
+
+      // Draw current scene canvas
+      sCtx.drawImage(canvas, 0, 0, 1200, 800);
+
+      // Draw elegant decorative keepsake border & header
+      sCtx.save();
+      sCtx.strokeStyle = 'rgba(255, 215, 160, 0.65)';
+      sCtx.lineWidth = 14;
+      sCtx.strokeRect(18, 18, 1164, 764);
+
+      sCtx.strokeStyle = 'rgba(255, 180, 215, 0.8)';
+      sCtx.lineWidth = 2;
+      sCtx.strokeRect(32, 32, 1136, 736);
+
+      // Commemorative Banner
+      sCtx.fillStyle = 'rgba(10, 18, 36, 0.75)';
+      sCtx.fillRect(60, 48, 1080, 85);
+
+      sCtx.font = 'bold 36px "Dancing Script", cursive, serif';
+      sCtx.fillStyle = '#ffb8d2';
+      sCtx.textAlign = 'center';
+      sCtx.shadowColor = 'rgba(255, 107, 157, 0.8)';
+      sCtx.shadowBlur = 12;
+      sCtx.fillText('💐 Chúc Mừng Ngày Phụ Nữ Việt Nam 20/10 💐', 600, 92);
+
+      sCtx.font = '600 20px "Quicksand", sans-serif';
+      sCtx.fillStyle = '#fce7f3';
+      sCtx.shadowBlur = 6;
+      sCtx.fillText('Kính Tặng Cô Diệu Hương & 17 Đóa Hoa Nữ Lớp 9/12', 600, 122);
+
+      sCtx.restore();
+
+      // Trigger download
+      const link = document.createElement('a');
+      link.download = 'Thiep_20_10_Lop_912_BilliEilish.png';
+      link.href = snapCanvas.toDataURL('image/png');
+      link.click();
+
+      showToast('📷 Đã lưu thiệp kỷ niệm 20/10 thành công!');
+    }
+
+    // Button in letter to open custom wish lantern modal
+    const btnReleaseLanternWish = document.getElementById('btnReleaseLanternWish');
+    if (btnReleaseLanternWish) {
+      btnReleaseLanternWish.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLanternWishModal();
+      });
+    }
+
+    // Custom Lantern Wish Modal Logic
+    const lanternWishModal = document.getElementById('lanternWishModal');
+    const btnCloseLanternModal = document.getElementById('btnCloseLanternModal');
+    const tabSkyLantern = document.getElementById('tabSkyLantern');
+    const tabWaterLotus = document.getElementById('tabWaterLotus');
+    const inputLanternSender = document.getElementById('inputLanternSender');
+    const inputLanternWish = document.getElementById('inputLanternWish');
+    const btnSubmitLanternWish = document.getElementById('btnSubmitLanternWish');
+    const btnSubmitLanternText = document.getElementById('btnSubmitLanternText');
+
+    let currentLanternType = 'sky'; // 'sky' or 'water'
+
+    function openLanternWishModal() {
+      if (lanternWishModal) lanternWishModal.classList.add('show');
+    }
+    function closeLanternWishModal() {
+      if (lanternWishModal) lanternWishModal.classList.remove('show');
+    }
+
+    if (btnCloseLanternModal) {
+      btnCloseLanternModal.addEventListener('click', closeLanternWishModal);
+    }
+    if (lanternWishModal) {
+      lanternWishModal.addEventListener('click', (e) => {
+        if (e.target === lanternWishModal) closeLanternWishModal();
+      });
+    }
+
+    if (tabSkyLantern && tabWaterLotus) {
+      tabSkyLantern.addEventListener('click', () => {
+        currentLanternType = 'sky';
+        tabSkyLantern.classList.add('active');
+        tabWaterLotus.classList.remove('active');
+        btnSubmitLanternText.textContent = 'Thả Đèn Lồng Bay Lên Trời';
+      });
+      tabWaterLotus.addEventListener('click', () => {
+        currentLanternType = 'water';
+        tabWaterLotus.classList.add('active');
+        tabSkyLantern.classList.remove('active');
+        btnSubmitLanternText.textContent = 'Thả Hoa Đăng Bồng Bềnh Trên Hồ';
+      });
+    }
+
+    document.querySelectorAll('.quick-wish-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wish = chip.getAttribute('data-wish');
+        if (inputLanternWish) inputLanternWish.value = wish;
+      });
+    });
+
+    if (btnSubmitLanternWish) {
+      btnSubmitLanternWish.addEventListener('click', () => {
+        const name = (inputLanternSender && inputLanternSender.value.trim()) || 'Bạn Nữ 9/12';
+        const wish = (inputLanternWish && inputLanternWish.value.trim()) || 'Luôn vui vẻ, rạng ngời và hạnh phúc!';
+
+        closeLanternWishModal();
+
+        if (currentLanternType === 'sky') {
+          releaseCustomSkyLantern(name, wish);
+        } else {
+          // Release floating water lotus lantern on lake
+          waterLanterns.push({
+            x: W * 0.5 + (Math.random() - 0.5) * (W * 0.4),
+            yFrac: 0.35 + Math.random() * 0.45,
+            size: 15,
+            speed: 0.0008,
+            phase: Math.random() * Math.PI * 2,
+            flamePhase: Math.random() * Math.PI * 2,
+            customName: name,
+            customWish: wish
+          });
+          playSparkleChime();
+          spawnSparkleBurst(W * 0.5, H - 70, 35);
+          showToast('🪷 Hoa đăng của ' + name + ' đang bồng bềnh tỏa sáng trên mặt hồ!');
+        }
+
+        // Clear input
+        if (inputLanternWish) inputLanternWish.value = '';
+      });
+    }
+
 
     let resizeTimer = null;
     window.addEventListener('resize', () => {
